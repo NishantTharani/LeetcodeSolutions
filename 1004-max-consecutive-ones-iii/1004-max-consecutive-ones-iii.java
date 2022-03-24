@@ -1,16 +1,14 @@
 class Solution {
     public int longestOnes(int[] nums, int k) {
-        int flipped = 0;
+        int ones = 0;
         int start = 0;
         int max = 0;
         
         for (int end = 0; end < nums.length; end++) {
-            if (nums[end] == 0)
-                flipped++;
+            ones += nums[end];
             
-            while (flipped > k) {
-                if (nums[start] == 0)
-                    flipped--;
+            while (end + 1 - start - ones > k) {
+                ones -= nums[start];
                 start++;
             }
             
