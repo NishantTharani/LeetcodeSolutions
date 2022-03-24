@@ -7,7 +7,7 @@ class Solution {
         for (int end = 0; end < nums.length; end++) {
             ones += nums[end];
             
-            while (end + 1 - start - ones > k) {
+            if (end + 1 - start - ones > k) {
                 ones -= nums[start];
                 start++;
             }
