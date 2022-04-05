@@ -26,14 +26,13 @@ class Solution {
             }
             
             while (matches == map.size()) {
-                if (end + 1 - start < len) {
-                    len = end + 1 - start;
-                    out = s.substring(start, end + 1);
-                }
-                
                 char startChar = s.charAt(start);
                 if (map.containsKey(startChar)) {
                     if (map.get(startChar) == 0) {
+                        if (end + 1 - start < len) {
+                            len = end + 1 - start;
+                            out = s.substring(start, end + 1);
+                        }
                         matches--;
                     }
                     
