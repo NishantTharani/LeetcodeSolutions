@@ -1,37 +1,53 @@
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
-        Set<List<Integer>> out = new HashSet<List<Integer>>();
+        List<List<Integer>> out = new ArrayList<List<Integer>>();
         
         if (nums.length < 3)
-            return new ArrayList<List<Integer>>(out);
+            return out;
         
         // Sort it first  
         Arrays.sort(nums);
         
-        int x, y;
-        
-        for (int i = 0; i < nums.length; i++) {
-            x = nums[i];
-            Map<Integer, Integer> map = new HashMap<>();
+        int x, y, z;
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i] == nums[i-1])
+                continue;
             
-            for (int j = i+1; j < nums.length; j++) {
-                y = nums[j];
-                
-                if (map.containsKey(y)) {
-                    List<Integer> tmp = new ArrayList<>();
-                    tmp.add(x);
-                    tmp.add(map.get(y));
-                    tmp.add(y);
-                    out.add(tmp);
+            x = nums[i];
+            
+            int start = i+1;
+            int end = nums.length - 1;
+            
+            while (start < end) {
+                y = nums[start];
+                z = nums[end];
+                if (start > i+1 && y == nums[start-1]) {
+                    start++;
+                    continue;
                 }
                 
-                map.put(-x-y, y);
+                if (end < nums.length - 1 && z == nums[end+1]) {
+                    end--;
+                    continue;
+                }
+                
+                if (x + y + z == 0) {
+                    List<Integer> tmp = new ArrayList<>();
+                    tmp.add(x);
+                    tmp.add(y);
+                    tmp.add(z);
+                    out.add(tmp);
+                    start++;
+                } else if (x + y + z < 0) {
+                    start++;
+                } else {
+                    end--;
+                }
             }
-            
             
         }
         
-        return new ArrayList<List<Integer>>(out);
+        return out;
         
     }
 }
