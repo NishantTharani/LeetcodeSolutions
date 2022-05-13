@@ -3,25 +3,14 @@ class Solution {
         if (nums.length == 1)
             return 1;
         
-        int k = 1;
-        int i = 1;
-        int end = nums.length;
-        
-        while (i < end) {
+        int j = 1;
+        for (int i = 1; i < nums.length; i++) {
             if (nums[i] > nums[i-1]) {
-                k++;
-                i++;
-            } else if (nums[i] == nums[i-1]) {
-                int j = i;
-                while (j < nums.length - 1 && nums[j] <= nums[j+1]) {
-                    int tmp = nums[j];
-                    nums[j] = nums[j+1];
-                    nums[j+1] = tmp;
-                    j++;
-                }
-                end--;
+                nums[j] = nums[i];
+                j++;
             }
         }
-        return k;
+        
+        return j;
     }
 }
