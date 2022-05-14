@@ -2,17 +2,19 @@ class Solution {
     public void sortColors(int[] nums) {
         // First put all the 2's at the back
         int end = nums.length - 1;
+        int start = 0;
         
-        for (int start = 0; start < end; start++) {
-            while (end > 0 && nums[end] == 2) {
+        while (start < end) {
+            if (nums[end] == 2) {
                 end--;
-            }
-            
-            if (nums[start] == 2 && start < end) {
-                int tmp = nums[end];
-                nums[end] = nums[start];
-                nums[start] = tmp;
-                end--;
+            } else {
+                if (nums[start] == 2) {
+                    int tmp = nums[end];
+                    nums[end] = nums[start];
+                    nums[start] = tmp;
+                    end--;
+                }
+                start++;
             }
         }
         
@@ -21,17 +23,18 @@ class Solution {
                 end--;
         }
         
-        // Now put all the 1s at the back
-        for (int start = 0; start < end; start++) {
-            while (end > 0 && nums[end] == 1) {
+        start = 0;
+        while (start < end) {
+            if (nums[end] == 1) {
                 end--;
-            }
-            
-            if (nums[start] == 1 && start < end) {
-                int tmp = nums[end];
-                nums[end] = nums[start];
-                nums[start] = tmp;
-                end--;
+            } else {
+                if (nums[start] == 1) {
+                    int tmp = nums[end];
+                    nums[end] = nums[start];
+                    nums[start] = tmp;
+                    end--;
+                }
+                start++;
             }
         }
     }
