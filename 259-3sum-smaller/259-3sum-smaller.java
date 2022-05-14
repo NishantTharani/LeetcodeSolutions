@@ -4,12 +4,11 @@ class Solution {
         int out = 0;
         
         for (int i = 0; i < nums.length - 2; i++) {
-            int max = target - nums[i];
             int j = i + 1;
             int k = nums.length - 1;
             
             while (j < k) {
-                if (nums[j] + nums[k] < max) {
+                if (nums[i] + nums[j] + nums[k] < target) {
                     out += k - j;
                     j++;
                 } else {
