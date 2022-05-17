@@ -14,7 +14,6 @@ class Solution {
                 }
                 
                 int tmpTarget = target - nums[a] - nums[b];
-                Map<Integer, Integer> map = new HashMap<>();
                 
                 int c = b + 1;
                 int d = nums.length - 1;
