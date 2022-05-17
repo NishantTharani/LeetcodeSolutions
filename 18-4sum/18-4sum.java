@@ -21,13 +21,13 @@ class Solution {
                 
                 while (c < d) {
                     if (nums[c] + nums[d] < tmpTarget) {
-                        c++;
-                        while (c < nums.length && nums[c] == nums[c-1])
+                        do {
                             c++;
+                        } while (c < nums.length && nums[c] == nums[c-1]);
                     } else if (nums[c] + nums[d] > tmpTarget) {
-                        d--;
-                        while (d >= 0 && nums[d] == nums[d+1])
-                            d--;
+                        do {
+                            d--;    
+                        } while (d >= 0 && nums[d] == nums[d+1]);
                     } else {
                         List<Integer> tmpOut = new ArrayList<>();
                         tmpOut.add(nums[a]);
