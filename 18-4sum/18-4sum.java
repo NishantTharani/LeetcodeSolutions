@@ -12,18 +12,16 @@ class Solution {
                 if (b > a + 1 && nums[b] == nums[b-1]) {
                     continue;
                 }
-                
-                int tmpTarget = target - nums[a] - nums[b];
-                
+                                
                 int c = b + 1;
                 int d = nums.length - 1;
                 
                 while (c < d) {
-                    if (nums[c] + nums[d] < tmpTarget) {
+                    if (nums[c] + nums[d] < target - nums[a] - nums[b]) {
                         do {
                             c++;
                         } while (c < nums.length && nums[c] == nums[c-1]);
-                    } else if (nums[c] + nums[d] > tmpTarget) {
+                    } else if (nums[c] + nums[d] > target - nums[a] - nums[b]) {
                         do {
                             d--;    
                         } while (d >= 0 && nums[d] == nums[d+1]);
