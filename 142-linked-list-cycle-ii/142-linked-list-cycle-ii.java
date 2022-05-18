@@ -11,19 +11,44 @@
  */
 public class Solution {
     public ListNode detectCycle(ListNode head) {
+        // Check if there is a cycle, if so our pointers meet at node V
         if (head == null)
             return null;
         
-        Set<ListNode> set = new HashSet<>();        
+        ListNode fast = head;
+        ListNode slow = head;
         
-        while (head.next != null) {
-            if (set.contains(head))
-                return head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
             
-            set.add(head);
-            head = head.next;
+            if (fast == slow)
+                break;
         }
         
-        return null;
+        if (fast == null || fast.next == null)
+            return null;
+        
+        // Figure out how long the cycle is, say 'm'
+        int m = 1;
+        while (fast.next != slow) {
+            fast = fast.next;
+            m++;
+        }
+        
+        // Start again from the beginning until our two nodes meet
+        slow = head;
+        fast = head;
+        
+        for (int i = 0; i < m; i++) {
+            fast = fast.next;
+        }
+        
+        while (slow != fast) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        
+        return slow;
     }
 }
