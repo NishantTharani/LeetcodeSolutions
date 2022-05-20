@@ -42,12 +42,6 @@ class Solution {
         
         out.add(new int[]{start, end});
         
-        int[][] outArr = new int[out.size()][];
-        
-        for (int i = 0; i < out.size(); i++) {
-            outArr[i] = out.get(i);
-        }
-        
-        return outArr;
+        return out.toArray( new int[out.size()][]);
     }
 }
