@@ -26,38 +26,28 @@ class Solution {
             a <= j and b > j and b < k: set b = k, delete j,k, keep the first interval the same
         */
         
-        int i = 1;
-        int len = 1;
-        int[] prev = intervals[0];
-        int[] curr;
-        while (i < intervals.length) {   
-            curr = intervals[i];
-            if (prev[1] < curr[0]) {
-                prev = intervals[i];
-                len++;
-                i++;
-            } else if (prev[1] >= curr[1]) {
-                curr[0] = -1;
-                curr[1] = -1;
-                i++;
-            } else if (prev[1] >= curr[0] && prev[1] < curr[1]) {
-                prev[1] = curr[1];
-                curr[0] = -1;
-                curr[1] = -1;
-                i++;
+        int start = intervals[0][0];
+        int end = intervals[0][1];
+        List<int[]> out = new ArrayList<>();
+        
+        for (int i = 1; i < intervals.length; i++) {
+            if (end >= intervals[i][0]) {
+                end = Math.max(end, intervals[i][1]);
+            } else {
+                out.add(new int[]{start, end});
+                start = intervals[i][0];
+                end = intervals[i][1];
             }
         }
         
-        // Create the output
-        int[][] out = new int[len][];
-        i = 0;
-        for (int[] tmp : intervals) {
-            if (tmp[0] != -1) {
-                out[i] = tmp;
-                i++;
-            }
+        out.add(new int[]{start, end});
+        
+        int[][] outArr = new int[out.size()][];
+        
+        for (int i = 0; i < out.size(); i++) {
+            outArr[i] = out.get(i);
         }
         
-        return out;
+        return outArr;
     }
 }
