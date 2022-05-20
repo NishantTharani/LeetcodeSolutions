@@ -13,68 +13,51 @@ class Solution {
      
         */
         
-        List<List<Integer>> out = new ArrayList<List<Integer>>();
-        int i;
-        int j;
-        int a;
-        int b;
-        int idx;
-        
-        for (int[] interval : intervals) {
-            a = interval[0];
-            b = interval[1];
-            boolean added = false;
-            idx = 0;
-            
-            while (idx < out.size()) {
-                List<Integer> newInt = out.get(idx);
-                i = newInt.get(0);
-                j = newInt.get(1);
-                
-                if (b < i) {
-                    // Case 1: prepend the new interval and break
-                    // Actually do the prepending at the end, so just break here
-                    break;
-                } else if (a <= i && b <= j) {
-                    // Case 2: adjust the new interval, delete the old one, and continue
-                    b = j;
-                    out.remove(idx);
-                    continue;
-                } else if (a <= i && b >= j) {
-                    // Case 3: delete the old interval, and continue
-                    out.remove(idx);
-                    continue;
-                } else if (a >= i && b <= j) {
-                    // Case 4: ignore the new interval, and break
-                    idx = -1;
-                    break;
-                } else if (a >= i && a <= j && b >= j) {
-                    // Case 5: adjust the new interval, delete the old one, and continue
-                    a = i;
-                    out.remove(idx);
-                    continue;
-                } else if (a >= j) {
-                    // Case 6: increment the index and continue
-                    idx++;
-                }
+        // Sort the intervals on their start time
+        Arrays.sort(intervals, new java.util.Comparator<int[]>() {
+            public int compare(int[] a, int[] b) {
+                return Integer.compare(a[0], b[0]);
             }
-            
-            if (idx >= 0) {
-                List<Integer> tmp = new ArrayList<Integer>();
-                tmp.add(a);
-                tmp.add(b);
-                out.add(idx, tmp);
+        });
+        
+        /* Now we can check two consecutive intervals a,b and j,k and only have cases:
+            b < j: do nothing and update the first interval
+            b >= k: delete j,k and keep the first interval the same
+            a <= j and b > j and b < k: set b = k, delete j,k, keep the first interval the same
+        */
+        
+        int i = 1;
+        int len = 1;
+        int[] prev = intervals[0];
+        int[] curr;
+        while (i < intervals.length) {   
+            curr = intervals[i];
+            if (prev[1] < curr[0]) {
+                prev = intervals[i];
+                len++;
+                i++;
+            } else if (prev[1] >= curr[1]) {
+                curr[0] = -1;
+                curr[1] = -1;
+                i++;
+            } else if (prev[1] >= curr[0] && prev[1] < curr[1]) {
+                prev[1] = curr[1];
+                curr[0] = -1;
+                curr[1] = -1;
+                i++;
             }
         }
         
-        int[][] outArr = new int[out.size()][];
-        for (int x = 0; x < outArr.length; x++) {
-            int[] tmp = new int[2];
-            tmp[0] = out.get(x).get(0);
-            tmp[1] = out.get(x).get(1);
-            outArr[x] = tmp;
+        // Create the output
+        int[][] out = new int[len][];
+        i = 0;
+        for (int[] tmp : intervals) {
+            if (tmp[0] != -1) {
+                out[i] = tmp;
+                i++;
+            }
         }
         
-        return outArr;
+        return out;
     }
 }
