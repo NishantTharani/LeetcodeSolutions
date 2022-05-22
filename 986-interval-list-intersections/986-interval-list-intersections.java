@@ -14,28 +14,19 @@ class Solution {
         int i = 0;
         int j = 0;
         List<int[]> out = new ArrayList<>();
-        int start1;
-        int end1;
-        int start2;
-        int end2;
         int start;
         int end;
         
-        while (i < firstList.length && j < secondList.length) {
-            start1 = firstList[i][0];
-            end1 = firstList[i][1];
-            start2 = secondList[j][0];
-            end2 = secondList[j][1];
-            
-            if (end1 >= start2 && end2 >= start1) {
+        while (i < firstList.length && j < secondList.length) {       
+            if (firstList[i][1] >= secondList[j][0] && secondList[j][1] >= firstList[i][0]) {
                 // The two intervals intersect: append the intersection
-                start = Math.max(start1, start2);
-                end = Math.min(end1, end2);
+                start = Math.max(firstList[i][0], secondList[j][0]);
+                end = Math.min(firstList[i][1], secondList[j][1]);
                 out.add(new int[]{start, end});
             }
             
             // Append the correct index
-            if (end1 < end2) {
+            if (firstList[i][1] < secondList[j][1]) {
                 i++;
             } else {
                 j++;
