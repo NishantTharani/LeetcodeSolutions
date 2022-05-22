@@ -1,30 +1,33 @@
 class Solution {
     public int[][] insert(int[][] intervals, int[] newInterval) {
-        List<int[]> list = new ArrayList<>(Arrays.asList(intervals));
-        int idx = 0;
-        
-        while (idx < intervals.length && newInterval[0] > list.get(idx)[0]) {
-            idx++;
-        }
-    
-        list.add(idx, newInterval);
-            
-        // Now repeat the merge intervals process for the entire list
         List<int[]> out = new ArrayList<>();
-        int start = list.get(0)[0];
-        int end = list.get(0)[1];
+        int i = 0;
         
-        for (int i = 1; i < list.size(); i++) {
-            if (end < list.get(i)[0]) {
-                out.add(new int[]{start, end});
-                start = list.get(i)[0];
-                end = list.get(i)[1];
-            } else {
-                end = Math.max(end, list.get(i)[1]);
-            }
+        while (i < intervals.length && intervals[i][1] < newInterval[0]) {
+            out.add(intervals[i]);
+            i++;
+        }
+        
+        if (i >= intervals.length) {
+            out.add(newInterval);
+            return out.toArray(new int[out.size()][]);
+        }
+        
+        // Go through all the intervals our new interval overlaps with
+        int start = Math.min(newInterval[0], intervals[i][0]);
+        int end = newInterval[1];
+        
+        while (i < intervals.length && end >= intervals[i][0]) {
+            end = Math.max(end, intervals[i][1]);
+            i++;
         }
         
         out.add(new int[]{start, end});
+        
+        while (i < intervals.length) {
+            out.add(intervals[i]);
+            i++;
+        }
         
         return out.toArray(new int[out.size()][]);
     }
