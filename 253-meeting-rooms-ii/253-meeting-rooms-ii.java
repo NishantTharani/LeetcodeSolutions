@@ -7,7 +7,6 @@ class Solution {
         
         int start;
         int end;
-        boolean added;
         for (int i = 1; i < intervals.length; i++) {
             start = intervals[i][0];
             end = intervals[i][1];
@@ -15,11 +14,9 @@ class Solution {
             if (start >= ends.peek()) {
                 // Replace the min value with end
                 ends.poll();
-                ends.add(end);
-            } else {
-                // Meeting needs a new room
-                ends.add(end);
             }
+            
+            ends.add(end);
         }
         
         return ends.size();
