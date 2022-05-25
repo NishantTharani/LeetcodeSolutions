@@ -1,16 +1,34 @@
 class Solution {
     public int findDuplicate(int[] nums) {
-        int tmp;
-        for (int i = 0; i < nums.length; i++) {
-            while (nums[i] != i+1) {
-                tmp = nums[i];
-                if (tmp == nums[tmp-1])
-                    return tmp;
-                nums[i] = nums[tmp-1];
-                nums[tmp-1] = tmp;
-            }
+        // Find a location in the cycle that we know exists
+        int slow = nums[0];
+        int fast = nums[0];
+        
+        do {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        } while (slow != fast);
+        
+        // Now find the length of the cycle
+        int len = 0;
+        do {
+            slow = nums[slow];
+            len++;
+        } while (slow != fast);
+        
+        // Now find the start of the cycle - this will actually be the duplicated number
+        slow = nums[0];
+        fast = nums[0];
+        for (int i = 0; i < len; i++) {
+            slow = nums[slow];
         }
         
-        return -1;
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+        
+        return slow;
+        
     }
 }
