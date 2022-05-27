@@ -35,18 +35,19 @@ class Solution {
         while (queue.size() > 0) {
             n = queue.size();
             prev = null;
+            curr = queue.peek();
             
             for (int i = 0; i < n; i++) {
                 curr = queue.poll();
                 if (prev != null)
                     prev.next = curr;
-                curr.next = null;
                 if (curr.left != null)
                     queue.add(curr.left);
                 if (curr.right != null)
                     queue.add(curr.right);
                 prev = curr;
             }
+            curr.next = null;
         }
         
         return root;
