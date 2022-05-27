@@ -15,7 +15,7 @@
  */
 class Solution {
     public List<List<Integer>> levelOrderBottom(TreeNode root) {
-        List<List<Integer>> out = new ArrayList<>();
+        List<List<Integer>> out = new LinkedList<>();
         
         if (root == null)
             return out;
@@ -38,10 +38,9 @@ class Solution {
                     queue.add(curr.right);
             }
             
-            out.add(tmp);
+            out.add(0, tmp);
         }
         
-        Collections.reverse(out);
         return out;
     }
 }
