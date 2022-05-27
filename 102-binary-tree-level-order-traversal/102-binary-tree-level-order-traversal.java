@@ -20,33 +20,24 @@ class Solution {
         if (root == null)
             return out;
         
-        TreeNode endOfLevel = root;
-        Queue<TreeNode> queue = new ArrayDeque<>();
-        queue.add(endOfLevel);
+        Deque<TreeNode> queue = new ArrayDeque<>();
+        queue.add(root);
         
         TreeNode curr;
-        TreeNode mostRecentlyAdded;
-        
-        while (endOfLevel != null) {
+        int n;
+        while (queue.size() > 0) {
             List<Integer> level = new ArrayList<>();
-            mostRecentlyAdded = null;
+            n = queue.size();
             
-            do {
+            for (int i = 0; i < n; i++) {
                 curr = queue.poll();
                 level.add(curr.val);
-                
-                if (curr.left != null) {
-                    queue.add(curr.left);
-                    mostRecentlyAdded = curr.left;
-                }
-                
-                if (curr.right != null) {
-                    queue.add(curr.right);
-                    mostRecentlyAdded = curr.right;
-                }
-            } while (curr != endOfLevel);
+                if (curr.left != null)
+                    queue.addLast(curr.left);
+                if (curr.right != null)
+                    queue.addLast(curr.right);
+            }
             
-            endOfLevel = mostRecentlyAdded;
             out.add(level);
         }
         
