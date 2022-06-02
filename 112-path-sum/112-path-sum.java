@@ -14,33 +14,44 @@
  * }
  */
 class Solution {
+    class NodeVal {
+        TreeNode node;
+        int val;
+        
+        NodeVal(TreeNode node, int val) {
+            this.val = val;
+            this.node = node;
+        }
+    }
+    
     public boolean hasPathSum(TreeNode root, int targetSum) {
         if (root == null)
             return false;
         
-        return recHasPathSum(root, targetSum, 0);
+        Deque<NodeVal> stack = new LinkedList<>();
+        stack.add(new NodeVal(root, root.val));
+        NodeVal tmp;
+        TreeNode curr;
+        
+        while (stack.size() > 0) {
+            tmp = stack.removeFirst();
+            curr = tmp.node;
+            
+            if (curr.left != null)
+                stack.addFirst(new NodeVal(curr.left, tmp.val + curr.left.val));
+            
+            if (curr.right != null)
+                stack.addFirst(new NodeVal(curr.right, tmp.val + curr.right.val));
+            
+            if (curr.right == null && curr.left == null && tmp.val == targetSum)
+                return true;
+        }
+        
+        return false;
+        
+        
+        
         
     }
     
-    private boolean recHasPathSum(TreeNode curr, int target, int sum) {
-        if (curr.left == null && curr.right == null) {
-            if (sum + curr.val == target) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        
-        boolean out = false;
-        
-        if (curr.left != null) {
-            out = out || recHasPathSum(curr.left, target, sum + curr.val);
-        }
-        
-        if (curr.right != null) {
-            out = out || recHasPathSum(curr.right, target, sum + curr.val);
-        }
-        
-        return out;
-    }
 }
