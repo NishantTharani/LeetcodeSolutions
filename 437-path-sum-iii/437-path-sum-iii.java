@@ -24,7 +24,7 @@ class Solution {
         if (root == null)
             return out;
         
-        recPathSum(root, 0, new ArrayList<Integer>());
+        recPathSum(root, 0, new LinkedList<Integer>());
         
         return this.out;
         
