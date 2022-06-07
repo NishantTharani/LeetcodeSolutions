@@ -14,40 +14,37 @@
  * }
  */
 class Solution {
-    int out;
     int target;
     
     public int pathSum(TreeNode root, int targetSum) {
-        this.out = 0;
         this.target = targetSum;
         
         if (root == null)
-            return out;
+            return 0;
         
-        recPathSum(root, 0, new ArrayList<Integer>());
-        
-        return this.out;
-        
+        return recPathSum(root, 0, 0, new ArrayList<Integer>());
+                
     }
     
-    private void recPathSum(TreeNode curr, int sum, List<Integer> path) {
+    private int recPathSum(TreeNode curr, int sum, int out, List<Integer> path) {
         sum += curr.val;
         if (sum == this.target)
-            this.out++;
+            out++;
         
         for (int i = 0; i < path.size(); i++) {
             if (sum - path.get(i) == this.target)
-                this.out++;
+                out++;
         }
         
         path.add(sum);
         
         if (curr.left != null)
-            recPathSum(curr.left, sum, path);
+            out += recPathSum(curr.left, sum, 0, path);
         
         if (curr.right != null)
-            recPathSum(curr.right, sum, path);
+            out +=recPathSum(curr.right, sum, 0, path);
         
         path.remove(path.size() - 1);
+        return out;
     }
 }
