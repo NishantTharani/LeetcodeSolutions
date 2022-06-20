@@ -10,9 +10,7 @@ class Solution {
         while (left <= right) {
             mid = left + (right - left)/2;
             
-            if (left == right && target == letters[mid]) {
-                return letters[mid+1];
-            } else if (target < letters[mid]) {
+            if (target < letters[mid]) {
                 right = mid - 1;
             } else {
                 left = mid + 1;
