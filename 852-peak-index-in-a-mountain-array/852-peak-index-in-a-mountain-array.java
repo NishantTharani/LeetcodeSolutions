@@ -4,18 +4,16 @@ class Solution {
         int right = arr.length - 1;
         int mid;
         
-        while (right - left > 2) {
+        while (left < right) {
             mid = left + (right - left)/2;
             
-            if (arr[mid] > arr[mid-1] && arr[mid] > arr[mid+1]) {
-                return mid;
-            } else if (arr[mid] > arr[mid-1] && arr[mid+1] > arr[mid]) {
-                left = mid;
+            if (arr[mid] > arr[mid+1]) {
+                right = mid;
             } else {
-                right = mid + 1;
+                left = mid + 1;
             }
         }
         
-        return (left+1);
+        return (left);
     }
 }
