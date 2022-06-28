@@ -6,11 +6,9 @@ class Solution {
             map.put(num, map.getOrDefault(num, 0) + 1);
         }
         
-        PriorityQueue<Pair<Integer,Integer>> minHeap = new PriorityQueue<>((p1, p2) -> p1.getValue() - p2.getValue());
+        PriorityQueue<Map.Entry<Integer,Integer>> minHeap = new PriorityQueue<>((p1, p2) -> p1.getValue() - p2.getValue());
         
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            Pair<Integer, Integer> p = new Pair(entry.getKey(), entry.getValue());
-            
+        for (Map.Entry<Integer, Integer> p : map.entrySet()) {            
             if (minHeap.size() < k) {
                 minHeap.add(p);
             } else if (p.getValue() > minHeap.peek().getValue()) {
