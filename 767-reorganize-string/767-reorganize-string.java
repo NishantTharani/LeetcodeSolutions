@@ -6,19 +6,20 @@ class Solution {
         
         for (int i = 0; i < s.length(); i++) {
             map.put(s.charAt(i), map.getOrDefault(s.charAt(i), 0) + 1);
-            if (map.get(s.charAt(i)) > (s.length() + 1)/2) {
-                return "";
-            }
             if (map.get(s.charAt(i)) > max) {
                 max = map.get(s.charAt(i));
                 maxChar = s.charAt(i);
             }
         }
         
+        if (max > (s.length() + 1)/2) {
+            return "";
+        }
+        
         char[] out = new char[s.length()];
         int idx = 0;
         
-        for (int i = 0; i < map.get(maxChar); i++) {
+        for (int i = 0; i < max; i++) {
             out[idx] = maxChar;
             idx += 2;
 
