@@ -9,11 +9,9 @@ class Solution {
             }
         }
         
-        PriorityQueue<Map.Entry<Character, Integer>> minHeap = new PriorityQueue<>((e1, e2) -> e1.getValue() - e2.getValue());
         PriorityQueue<Map.Entry<Character, Integer>> maxHeap = new PriorityQueue<>((e1, e2) -> e2.getValue() - e1.getValue());
         
         for (Map.Entry<Character, Integer> e : map.entrySet()) {
-            minHeap.add(e);
             maxHeap.add(e);
         }
         
