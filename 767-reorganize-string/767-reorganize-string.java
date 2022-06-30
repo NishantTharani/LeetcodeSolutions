@@ -43,7 +43,7 @@ class Solution {
             }
         }
 
-        return new String(out);
+        return String.valueOf(out);
         
     }
 }
