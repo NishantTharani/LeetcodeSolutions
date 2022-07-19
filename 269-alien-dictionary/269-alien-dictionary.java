@@ -1,48 +1,37 @@
 class Solution {
     public String alienOrder(String[] words) {
         // Convert the list of words into a list of prerequisite-pairs
-        List<char[]> prereqs = new ArrayList<>();
-        Set<Character> letters = new HashSet<>();
-        
-        for (int i = 0; i < words.length; i++) {
-            for (char c : words[i].toCharArray())
-                letters.add(c);
-            
-            if (i > 0) {
-                String first = words[i-1];
-                String second = words[i];
-                int minLength = Math.min(first.length(), second.length());
-
-                boolean prereqAdded = false;
-                for (int j = 0; j < minLength; j++) {
-                    char a = first.charAt(j);
-                    char b = second.charAt(j);
-                    if (a != b) {
-                        prereqs.add(new char[]{a, b});
-                        prereqAdded = true;
-                        break;
-                    }
-                }
-                if (!prereqAdded && first.length() > second.length())
-                    return "";
-            }   
-        }
-        
-        // Now find a topological ordering
         Map<Character, List<Character>> graph = new HashMap<>();
         Map<Character, Integer> incoming = new HashMap<>();
         
-        for (char c : letters) {
-            graph.put(c, new ArrayList<>());
-            incoming.put(c, 0);
+        for (String word : words) {
+            for (char c : word.toCharArray()) {
+                graph.put(c, new ArrayList<>());
+                incoming.put(c, 0);
+            }
         }
         
-        for (char[] prereq : prereqs) {
-            graph.get(prereq[0]).add(prereq[1]);
-            incoming.put(prereq[1], incoming.getOrDefault(prereq[1], 0) + 1);
+        for (int i = 1; i < words.length; i++) {            
+            String first = words[i-1];
+            String second = words[i];
+            int minLength = Math.min(first.length(), second.length());
+
+            boolean prereqAdded = false;
+            for (int j = 0; j < minLength; j++) {
+                char a = first.charAt(j);
+                char b = second.charAt(j);
+                if (a != b) {
+                    graph.get(a).add(b);
+                    incoming.put(b, incoming.get(b) + 1);
+                    prereqAdded = true;
+                    break;
+                }
+            }
+            if (!prereqAdded && first.length() > second.length())
+                return "";
         }
         
-        int numKeys = letters.size();
+        int numKeys = incoming.keySet().size();
         
         Queue<Character> sources = new LinkedList<>();
         StringBuilder out = new StringBuilder();
