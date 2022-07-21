@@ -11,27 +11,47 @@ class Solution {
         
         sum /= k;
         
-        // Brute force solution?
-        int[] buckets = new int[k];
-        return rec(nums, sum, 0, buckets);
+        // Memoized solution:
+        int taken = 0;
+        Map<Integer,Boolean> memory = new HashMap<>();
         
+        return rec(nums, sum, 0, k, taken, memory);
     }
     
-    private boolean rec(int[] nums, int sum, int idx, int[] buckets) {
-        if (idx == nums.length)
-            return true;
+    private boolean rec(int[] nums, int sum, int currentSum, int count, int taken, Map<Integer,Boolean> memory) {
         
-        boolean out = false;
-        Set<Integer> tried = new HashSet<>();
-        for (int i = 0; i < buckets.length; i++) {
-            if (buckets[i] + nums[idx] <= sum && !tried.contains(buckets[i])) {
-                tried.add(buckets[i]);
-                buckets[i] += nums[idx];
-                out = out || rec(nums, sum, idx+1, buckets);
-                buckets[i] -= nums[idx];
+        if (memory.containsKey(taken))
+            return memory.get(taken);
+        
+        if (count == 1) {
+            memory.put(taken, true);
+            return true;
+        }
+        
+        if (currentSum > sum) {
+            return false;
+        }
+        
+        if (currentSum == sum) {
+            boolean out = rec(nums, sum, 0, count-1, taken, memory);
+            memory.put(taken, out);
+            return out;
+        }
+        
+        for (int j = 0; j < nums.length; j++) {
+            if (((taken >> j) & 1) != 1) {
+                taken = taken | (1 << j);
+                
+                if (rec(nums, sum, currentSum+nums[j], count, taken, memory)) {
+                    memory.put(taken, true);
+                    return true;
+                }
+                
+                taken = taken ^ (1 << j);
             }
         }
         
-        return out;
+        memory.put(taken, false);
+        return false;
     }
 }
