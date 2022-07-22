@@ -36,9 +36,9 @@ class Solution {
         Queue<Character> sources = new LinkedList<>();
         StringBuilder out = new StringBuilder();
         
-        for (int i = 97; i < 97 + 26; i++) {
-            if (incoming.containsKey((char) i) && incoming.get((char) i) == 0)
-                sources.add((char) i);
+        for (Character c : incoming.keySet()) {
+            if (incoming.get(c) == 0)
+                sources.add(c);
         }
         
         while (!sources.isEmpty()) {
