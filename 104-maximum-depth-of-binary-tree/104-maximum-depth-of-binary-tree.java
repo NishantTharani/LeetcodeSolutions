@@ -15,22 +15,22 @@
  */
 class Solution {
     public int maxDepth(TreeNode root) {
-        int out = 0;
-        if (root == null)
-            return out;
+        return rec(root);
+    }
+    
+    private int rec(TreeNode curr) {
+        if (curr == null)
+            return 0;
         
-        Stack<Pair<TreeNode,Integer>> stack = new Stack<>();
-        stack.push(new Pair<TreeNode,Integer>(root,1));
+        int goLeft = 0;
+        int goRight = 0;
         
-        while (!stack.isEmpty()) {
-            Pair<TreeNode,Integer> curr = stack.pop();
-            out = Math.max(out, curr.getValue());
-            if (curr.getKey().left != null)
-                stack.push(new Pair<TreeNode,Integer>(curr.getKey().left, curr.getValue()+1));
-            if (curr.getKey().right != null)
-                stack.push(new Pair<TreeNode,Integer>(curr.getKey().right, curr.getValue()+1));
-        }
+        if (curr.left != null)
+            goLeft = rec(curr.left);
         
-        return out;
+        if (curr.right != null)
+            goRight = rec(curr.right);
+        
+        return Math.max(goLeft, goRight) + 1;
     }
 }
