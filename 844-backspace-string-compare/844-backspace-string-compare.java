@@ -1,40 +1,32 @@
 class Solution {
     public boolean backspaceCompare(String s, String t) {
-        int a = s.length() - 1;
-        int b = t.length() - 1;
-        int count;
+        int i = s.length();
+        int j = t.length();
         
-        while (a >= 0 && b >= 0) {
-            a = doBackspace(s, a);
+        while (i >= 0 || j >= 0) {
+            int toDel = 1;
+            while (toDel > 0) {
+                i--;
+                toDel--;
+                if (i >= 0 && s.charAt(i) == '#')
+                    toDel += 2;
+            }
             
-            b = doBackspace(t, b);
+            toDel = 1;
+            while (toDel > 0) {
+                j--;
+                toDel--;
+                if (j >= 0 && t.charAt(j) == '#')
+                    toDel += 2;
+            }
+
             
-            if (a >= 0 && b >= 0 && s.charAt(a--) != t.charAt(b--))
+            char a = i < 0 ? '1' : s.charAt(i);
+            char b = j < 0 ? '1' : t.charAt(j);
+            if (a != b)
                 return false;
-        
         }
-        
-        if (doBackspace(s, a) >= 0)
-            return false;
-        
-        if (doBackspace(t, b) >= 0)
-            return false;
         
         return true;
-    }
-    
-    private int doBackspace(String s, int a) {
-        int count = 0;
-        while (a >= 0 && (count > 0 || s.charAt(a) == '#')) {
-            if (s.charAt(a) == '#') {
-                count++;
-                a--;
-            } else {
-                a--;
-                count--;
-            }
-        }
-        
-        return a;
     }
 }
