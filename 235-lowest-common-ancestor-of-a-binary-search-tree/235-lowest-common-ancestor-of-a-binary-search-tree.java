@@ -10,38 +10,16 @@
 
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        // DFS for each node and pick the last node that is in common?
-        Queue<TreeNode> pPath = new LinkedList<>();
         TreeNode curr = root;
-        pPath.add(curr);
-        
-        while (curr != p) {
-            if (p.val < curr.val) {
+        while (true) {
+            if (p.val < curr.val && q.val < curr.val) {
                 curr = curr.left;
-            } else if (p.val > curr.val) {
+            } else if (p.val > curr.val && q.val > curr.val) {
                 curr = curr.right;
+            } else {
+                return curr;
             }
-            pPath.add(curr);
         }
         
-        Queue<TreeNode> qPath = new LinkedList<>();
-        curr = root;
-        qPath.add(curr);
-        while (curr != q) {
-            if (q.val < curr.val) {
-                curr = curr.left;
-            } else if (q.val > curr.val) {
-                curr = curr.right;
-            }
-            qPath.add(curr);
-        }
-        
-        curr = root;
-        while (pPath.peek() == qPath.peek()) {
-            curr = pPath.poll();
-            qPath.poll();
-        }
-        
-        return curr;
     }
 }
