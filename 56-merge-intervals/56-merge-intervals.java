@@ -1,47 +1,34 @@
 class Solution {
     public int[][] merge(int[][] intervals) {
-        /* Say two intervals are a,b and i,j
-        Six cases:
-            b <= i: first interval is before second: prepend and break
-            a >= j: first interval is after second: append and move on
-            a >= i and b <= j: second interval contains the first: ignore and move on
-            a <= i and b >= j: first interval contains the second
-                here we prepend the new one, delete the old one, but keep going in case other cases apply to later intervals too
-            a <= i and b <= j: they overlap. merge and move on
-            a >= i and a <= j and b >= j: they overlap. 
-                merge. and keep going in case other cases apply to later intervals too
-     
+        /*
+        Given two intervals: a,b and c,d , where a <= c
+            c > b : the intervals are not overlapping. save a,b and move on
+            b >= c : the intervals merge into a,max(b,d)
         */
         
-        // Sort the intervals on their start time
-        Arrays.sort(intervals, new java.util.Comparator<int[]>() {
-            public int compare(int[] a, int[] b) {
-                return Integer.compare(a[0], b[0]);
-            }
-        });
+        Arrays.sort(intervals, (i1, i2) -> Integer.compare(i1[0], i2[0]));
         
-        /* Now we can check two consecutive intervals a,b and j,k and only have cases:
-            b < j: do nothing and update the first interval
-            b >= k: delete j,k and keep the first interval the same
-            a <= j and b > j and b < k: set b = k, delete j,k, keep the first interval the same
-        */
-        
+        List<int[]> out = new ArrayList<>();
         int start = intervals[0][0];
         int end = intervals[0][1];
-        List<int[]> out = new ArrayList<>();
         
         for (int i = 1; i < intervals.length; i++) {
-            if (end >= intervals[i][0]) {
-                end = Math.max(end, intervals[i][1]);
-            } else {
+            int c = intervals[i][0];
+            int d = intervals[i][1];
+            
+            if (c > end) {
                 out.add(new int[]{start, end});
-                start = intervals[i][0];
-                end = intervals[i][1];
+                start = c;
+                end = d;
+            } else {
+                end = Math.max(end, d);
             }
         }
         
         out.add(new int[]{start, end});
         
-        return out.toArray( new int[out.size()][]);
+        int[][] out2 = new int[out.size()][];
+        out.toArray(out2);
+        return out2;
     }
 }
