@@ -1,41 +1,35 @@
 class Solution {
     public List<String> generateParenthesis(int n) {
-        List<String> out = new ArrayList<>();
-        Queue<StringBuilder> queue = new LinkedList<>();
-        queue.add(new StringBuilder(""));
+        Queue<String> queue = new LinkedList<>();
+        queue.add("()");
         
-        for (int i = 0; i < n; i++) {
-            int sz = queue.size();
+        for (int i = 1; i < n; i++) {
+            int k = queue.size();
             
-            for (int j = 0; j < sz; j++) {
-                StringBuilder sb = queue.poll();
-                
-                StringBuilder next = new StringBuilder(sb.toString());
-                next.insert(0, "()");
-                if (next.length() == n*2) {
-                    out.add(next.toString());
-                } else {
-                    queue.add(next);   
-                }
-                
-                for (int k = 0; k < sb.length(); k++) {
-                    if (sb.charAt(k) == '(') {
-                        next = new StringBuilder(sb.toString());
-                        next.insert(k+1, "()");
-                        if (next.length() == n*2) {
-                            out.add(next.toString());
-                        } else {
-                            queue.add(next);    
-                        }
-                        
-                    } else {
-                        break;
-                    }
+            for (int j = 0; j < k; j++) {
+                String s = queue.poll();
+                queue.add("()" + s);
+                int a = 0;
+                while (s.charAt(a) != ')') {
+                    queue.add(s.substring(0, a+1) + "()" + s.substring(a+1, s.length()));
+                    a++;
                 }
             }
         }
         
-        return out;
-        
+        return new ArrayList<String>(queue);
     }
 }
+
+
+/*
+Length 1: ()
+
+Length 2: (()) ()()
+
+Length 3: ((()))  (()())  (())()  ()(())  ()()()
+
+Try building each length out of each previous length: but how to avoid duplicates?
+
+One idea: add a () at the start + after each (, stop once we encounter a )
+*/
