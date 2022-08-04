@@ -10,13 +10,10 @@ class Solution {
         for (int end = 0; end < fruits.length; end++) {
             map.put(fruits[end], map.getOrDefault(fruits[end], 0) + 1);
             
-            if (map.get(fruits[end]) == 1)
-                picked++;
-            
-            while (picked > 2) {
+            while (map.size() > 2) {
                 map.put(fruits[start], map.get(fruits[start]) - 1);
                 if (map.get(fruits[start]) == 0)
-                    picked--;
+                    map.remove(fruits[start]);
                 start++;
             }
             
