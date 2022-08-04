@@ -4,7 +4,6 @@ class Solution {
         
         int out = 0;
         Map<Integer,Integer> map = new HashMap<>();
-        int picked = 0;
         int start = 0;
         
         for (int end = 0; end < fruits.length; end++) {
