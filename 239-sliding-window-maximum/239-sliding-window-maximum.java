@@ -15,13 +15,14 @@ class Solution {
         for (int end = k; end < nums.length; end++) {
             int start = end - k;
             map.put(nums[start], map.get(nums[start]) - 1);
+            
+            while (!maxHeap.isEmpty() && map.get(maxHeap.peek()) == 0)
+                maxHeap.poll();
+            
             map.put(nums[end], map.getOrDefault(nums[end], 0) + 1);
             
             if (map.get(nums[end]) == 1)
                 maxHeap.add(nums[end]);
-            
-            while (map.get(maxHeap.peek()) == 0)
-                maxHeap.poll();
             
             out[start+1] = maxHeap.peek();
         }
@@ -29,3 +30,7 @@ class Solution {
         return out;
     }
 }
+
+/*
+10 mins for suboptimal O(n logn)
+*/
