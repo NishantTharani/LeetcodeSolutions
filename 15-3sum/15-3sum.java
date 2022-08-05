@@ -1,56 +1,36 @@
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
-        List<List<Integer>> out = new ArrayList<List<Integer>>();
-        
-        if (nums.length < 3)
-            return out;
-        
-        // Sort it first  
         Arrays.sort(nums);
+        List<List<Integer>> out = new ArrayList<>();
         
-        int x, y, z;
         for (int i = 0; i < nums.length - 2; i++) {
-            if (nums[i] > 0)
-                break;
-            
             if (i > 0 && nums[i] == nums[i-1])
                 continue;
             
-            x = nums[i];
+            int j = i+1;
+            int k = nums.length - 1;
             
-            int start = i+1;
-            int end = nums.length - 1;
-            
-            while (start < end) {
-                y = nums[start];
-                z = nums[end];
-                if (start > i+1 && y == nums[start-1]) {
-                    start++;
-                    continue;
-                }
-                
-                if (end < nums.length - 1 && z == nums[end+1]) {
-                    end--;
-                    continue;
-                }
-                
-                if (x + y + z == 0) {
+            while (j < k) {
+                if (nums[i] + nums[j] + nums[k] == 0) {
                     List<Integer> tmp = new ArrayList<>();
-                    tmp.add(x);
-                    tmp.add(y);
-                    tmp.add(z);
+                    tmp.add(nums[i]);
+                    tmp.add(nums[j]);
+                    tmp.add(nums[k]);
                     out.add(tmp);
-                    start++;
-                } else if (x + y + z < 0) {
-                    start++;
+                }
+                
+                if (nums[i] + nums[j] + nums[k] <= 0) {
+                    j++;
+                    while (j < nums.length && nums[j] == nums[j-1])
+                        j++;
                 } else {
-                    end--;
+                    k--;
+                    while (k >= 0 && nums[k] == nums[k+1])
+                        k--;
                 }
             }
-            
         }
         
         return out;
-        
     }
 }
