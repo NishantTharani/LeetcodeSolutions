@@ -1,22 +1,24 @@
 class Solution {
     public char nextGreatestLetter(char[] letters, char target) {
+        // Edge cases
+        if (target < letters[0] || target >= letters[letters.length - 1])
+            return letters[0];
+        
+        // Binary search for the interior case
         int left = 0;
         int right = letters.length - 1;
-        int mid;
+        int mid = (left + right) / 2;
         
-        if (target >= letters[right])
-            return letters[left];
-        
-        while (left <= right) {
-            mid = left + (right - left)/2;
-            
+        while (!(target >= letters[mid] && target < letters[mid+1])) {
             if (target < letters[mid]) {
-                right = mid - 1;
+                right = mid;
+                mid = (left + right) / 2;
             } else {
-                left = mid + 1;
+                left = mid;
+                mid = (left + right) / 2;
             }
         }
         
-        return letters[left];
+        return letters[mid+1];
     }
 }
