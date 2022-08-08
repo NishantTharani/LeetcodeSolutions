@@ -23,7 +23,7 @@ class Solution {
                 }
             }
             
-            for (int start = 1; start < word.length(); start++) {
+            for (int start = word.length(); start >= 1; start--) {
                 String sub = word.substring(start, word.length());
                 if (set.contains(sub) && isConcat[start]) {
                     out.add(word);
