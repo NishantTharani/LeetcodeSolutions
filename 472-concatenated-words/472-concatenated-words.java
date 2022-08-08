@@ -1,8 +1,11 @@
 class Solution {
     public List<String> findAllConcatenatedWordsInADict(String[] words) {
         Set<String> set = new HashSet<>();
-        for (String word : words)
-            set.add(word);
+        Arrays.sort(words, new Comparator<String>() {
+            public int compare (String s1, String s2) {
+                return s1.length() - s2.length();
+            }
+        });
         
         List<String> out = new ArrayList<>();
         
@@ -27,6 +30,8 @@ class Solution {
                     break;
                 }
             }
+            
+            set.add(word);
         }
         
         return out;
