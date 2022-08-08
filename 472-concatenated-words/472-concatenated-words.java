@@ -14,7 +14,7 @@ class Solution {
             isConcat[0] = true;
             
             for (int end = 1; end < word.length(); end++) {
-                for (int start = 0; start < end; start++) {
+                for (int start = end - 1; start >= 0; start--) {
                     String sub = word.substring(start, end);
                     if (set.contains(sub) && isConcat[start]) {
                         isConcat[end] = true;
