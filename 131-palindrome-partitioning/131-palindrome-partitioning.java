@@ -1,17 +1,14 @@
 class Solution {
     public List<List<String>> partition(String s) {
-        Map<Integer, List<Integer>> map = new HashMap<>();
         int n = s.length();
-        
-        for (int i = 0; i < n; i++)
-            map.put(i, new ArrayList<>());
+        boolean[][] palindromes = new boolean[n][n];
         
         for (int i = 0; i < n; i++) {
             int left = i;
             int right = i;
             
             while (left >= 0 && right < n && s.charAt(left) == s.charAt(right)) {
-                map.get(left).add(right);
+                palindromes[left][right] = true;
                 left--;
                 right++;
             }
@@ -20,7 +17,7 @@ class Solution {
             right = i+1;
             
             while (left >= 0 && right < n && s.charAt(left) == s.charAt(right)) {
-                map.get(left).add(right);
+                palindromes[left][right] = true;
                 left--;
                 right++;
             }
@@ -44,10 +41,12 @@ class Solution {
                 }
                 out.add(partition);
             } else {
-                for (int end : map.get(idx)) {
-                    List<Integer> next = new ArrayList<>(curr);
-                    next.add(end + 1);
-                    queue.add(next);
+                for (int i = idx; i < n; i++) {
+                    if (palindromes[idx][i]) {
+                        List<Integer> next = new ArrayList<>(curr);
+                        next.add(i+1);
+                        queue.add(next);
+                    }
                 }
             }
         }
