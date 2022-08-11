@@ -1,28 +1,30 @@
 class Solution {
     public int characterReplacement(String s, int k) {
         int out = Integer.MIN_VALUE;
+        Map<Character, Integer> map = new HashMap<>();
+        int start = 0;
         
-        for (int i = 'A'; i < 'A' + 26; i++) {
-            char c = (char) i;
-            int replaced = 0;
-            int start = 0;
-            boolean[] replacedAt = new boolean[s.length()];
+        for (int end = 0; end < s.length(); end++) {
+            Character c = s.charAt(end);
+            map.put(c, map.getOrDefault(c, 0) + 1);
             
-            for (int end = 0; end < s.length(); end++) {
-                if (s.charAt(end) != c) {
-                    replaced++;
-                    replacedAt[end] = true;
-                }
-                
-                while (replaced > k) {
-                    if (replacedAt[start])
-                        replaced--;
-                    start++;
-                }
-                
-                out = Math.max(out, end - start + 1);
+            while (end + 1 - start - max(map) > k) {
+                c = s.charAt(start);
+                map.put(c, map.get(c) - 1);
+                start++;
             }
+
+            out = Math.max(out, end - start + 1);
         }
+        
+        return out;
+    }
+    
+    private int max(Map<Character, Integer> map) {
+        int out = 0;
+        
+        for (char c : map.keySet())
+            out = Math.max(out, map.get(c));
         
         return out;
     }
