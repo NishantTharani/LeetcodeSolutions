@@ -1,17 +1,15 @@
 class Solution {
     public int majorityElement(int[] nums) {
-        int out = nums[0];
         Map<Integer,Integer> map = new HashMap<>();
-        int max = 0;
+        int threshold = nums.length / 2;
         
         for (int num : nums) {
             map.put(num, map.getOrDefault(num, 0) + 1);
-            if (map.get(num) > max) {
-                max = map.get(num);
-                out = num;
+            if (map.get(num) > threshold) {
+                return num;
             }
         }
         
-        return out;
+        return -1;
     }
 }
