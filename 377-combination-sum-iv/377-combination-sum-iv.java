@@ -1,24 +1,18 @@
 class Solution {
     public int combinationSum4(int[] nums, int target) {
-        Map<Integer, Integer> map = new HashMap<>();
-        return rec(nums, target, map);
+        int[] val = new int[target + 1];
+        val[0] = 1;
         
-    }
-    
-    private int rec(int[] nums, int target, Map<Integer, Integer> map) {
-        if (map.containsKey(target))
-            return map.get(target);
-        
-        int val = 0;
-        for (int num : nums) {
-            if (num < target) {
-                val += rec(nums, target - num, map);
-            } else if (num == target) {
-                val++;
+        for (int t = 1; t <= target; t++) {
+            int v = 0;
+            for (int num : nums) {
+                if (num <= t)
+                    v += val[t - num];
+                val[t] = v;
             }
         }
         
-        map.put(target, val);
-        return val;
+        return val[target];
     }
+
 }
