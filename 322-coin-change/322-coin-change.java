@@ -14,9 +14,7 @@ class Solution {
                 val[i][j] = -1;
             }
         }
-        
-        Arrays.sort(coins);
-        
+                
         for (int i = 1; i <= m; i++) {
             int coin = coins[i-1];
             for (int j = 1; j <= amount; j++) {
