@@ -15,7 +15,9 @@ class Solution:
             return
         
         if target - candidates[idx] >= 0:
-            self.rec(candidates, idx+1, target - candidates[idx], list(curr) + [candidates[idx]], out)
+            curr.append(candidates[idx])
+            self.rec(candidates, idx+1, target - candidates[idx], curr, out)
+            curr.pop()
             
         next_idx = idx
         while next_idx < len(candidates) and candidates[next_idx] == candidates[idx]:
