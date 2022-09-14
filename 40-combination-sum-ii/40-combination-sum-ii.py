@@ -14,11 +14,12 @@ class Solution:
         if idx >= len(candidates):
             return
         
+        if target - candidates[idx] >= 0:
+            self.rec(candidates, idx+1, target - candidates[idx], list(curr) + [candidates[idx]], out)
+            
         next_idx = idx
         while next_idx < len(candidates) and candidates[next_idx] == candidates[idx]:
             next_idx += 1
         
         self.rec(candidates, next_idx, target, curr, out)
         
-        if target - candidates[idx] >= 0:
-            self.rec(candidates, idx+1, target - candidates[idx], list(curr) + [candidates[idx]], out)
