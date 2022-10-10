@@ -7,20 +7,18 @@ class Solution:
                 if i % j == 0 or j % i == 0:
                     allowed[i].append(j)
         
-        # Enumerate them
-        count = 0
-        queue = collections.deque()
-        queue.append((set(), 0))
+        return self.rec(n, allowed, set(), 1)
+    
+    def rec(self, n, allowed, curr_set, curr_idx):
+        if curr_idx > n:
+            return 1
         
-        while len(queue) > 0:
-            curr_set, curr_len = queue.popleft()
-            if curr_len == n:
-                count += 1
-            else:
-                for candidate in allowed[curr_len + 1]:
-                    if candidate not in curr_set:
-                        new_set = set(curr_set)
-                        new_set.add(candidate)
-                        queue.append((new_set, curr_len+1))
+        out = 0
+        for candidate in allowed[curr_idx]:
+            if candidate not in curr_set:
+                curr_set.add(candidate)
+                out += self.rec(n, allowed, curr_set, curr_idx+1)
+                curr_set.remove(candidate)
         
-        return count
+        return out
+        
