@@ -6,9 +6,7 @@ class Solution:
         for job in jobs:
             max_so_far = max(max_so_far, job[1])
             job[2] = max_so_far
-        
-        print(jobs)
-        
+                
         # Each worker can binary search to find the toughest job they can complete
         out = 0
         for w in worker:
@@ -25,7 +23,6 @@ class Solution:
             # Check feasibility in case mid = 0
             if jobs[mid][0] <= w:
                 out += jobs[mid][2]
-            print(jobs[mid][2])
                 
         return out
 
