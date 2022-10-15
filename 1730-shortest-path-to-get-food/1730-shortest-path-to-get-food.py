@@ -9,6 +9,7 @@ class Solution:
             for col_idx, cell in enumerate(row):
                 if cell == '*':
                     start = (row_idx, col_idx)
+                    break
         
         # Run BFS until I reach a food cell
         queue = collections.deque()
