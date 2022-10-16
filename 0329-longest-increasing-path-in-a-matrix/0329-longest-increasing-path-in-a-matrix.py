@@ -28,7 +28,6 @@ class Solution:
         
         while len(queue) > 0:
             row, col = queue.popleft()
-            print("Now at: " + str(row) + ',' + str(col))
             
             old_val = 1
             val = old_val
@@ -36,7 +35,6 @@ class Solution:
                 if nr >= 0 and nr < n and nc >= 0 and nc < m and matrix[nr][nc] > matrix[row][col]:
                     val = max(val, old_val + vals[nr][nc])
             
-            print("Value:", val)
             vals[row][col] = val
             max_value = max(max_value, val)
             
