@@ -28,7 +28,7 @@ class Solution:
                 sums.add(i+j)
                 diffs.add(j-i)
             
-                rec(queens, rows, cols, sums, diffs, n, new_i, new_j)
+                rec(queens, rows, cols, sums, diffs, n, i+1, 0)
                 
                 queens.pop()
                 rows.remove(i)
